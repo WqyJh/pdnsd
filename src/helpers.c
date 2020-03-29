@@ -653,7 +653,7 @@ int strncp(char *dst, char *src, int dstsz)
 */
 
 #define BUFSIZE 256
-int getline(char **lineptr, size_t *n, FILE *stream)
+ssize_t getline(char **lineptr, size_t *n, FILE *stream)
 {
 	char *line=*lineptr;
 	size_t sz=*n,i;
@@ -791,5 +791,25 @@ const char *inet_ntop(int af, const void *src, char *dst, size_t size)
 	}
 
 	return rc;
+}
+#endif
+
+#ifndef HAVE_STPCPY
+inline char *stpcpy (char *dest, const char *src)
+{
+	register char *d = dest;
+	register const char *s = src;
+
+	while ((*d++ = *s++) != '\0');
+
+	return d - 1;
+}
+#endif
+
+#ifndef HAVE_MEMPCPY
+inline void *mempcpy(void *dest, const void *src, size_t len)
+{
+    memcpy(dest,src,len);
+    return ((char *)dest)+len;
 }
 #endif

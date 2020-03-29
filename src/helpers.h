@@ -282,31 +282,17 @@ inline static char *strndup(const char *s, size_t n)
 #endif
 
 #ifndef HAVE_STPCPY
-inline static char *stpcpy (char *dest, const char *src)
+inline extern char *stpcpy (char *dest, const char *src)
   __attribute__((always_inline));
-inline static char *stpcpy (char *dest, const char *src)
-{
-  register char *d = dest;
-  register const char *s = src;
-
-  while ((*d++ = *s++) != '\0');
-
-  return d - 1;
-}
 #endif
 
 #ifndef HAVE_MEMPCPY
-inline static void *mempcpy(void *dest, const void *src, size_t len)
+inline extern void *mempcpy(void *dest, const void *src, size_t len)
   __attribute__((always_inline));
-inline static void *mempcpy(void *dest, const void *src, size_t len)
-{
-  memcpy(dest,src,len);
-  return ((char *)dest)+len;
-}
 #endif
 
 #ifndef HAVE_GETLINE
-int getline(char **lineptr, size_t *n, FILE *stream);
+ssize_t getline(char **lineptr, size_t *n, FILE *stream);
 #endif
 
 #ifndef HAVE_ASPRINTF
